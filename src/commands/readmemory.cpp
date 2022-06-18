@@ -31,7 +31,7 @@ int ReadMemoryCommand::execute(Packet *packet)
     auto copy_length = length < (packet->size()/2-1) ? length : (packet->size()/2-1);
 
     // TODO: check result better
-    auto res = ksceKernelMemcpyUserToKernelForPid(target->pid, packet->recv_buf, addr, copy_length);
+    auto res = ksceKernelMemcpyUserToKernelForPid(target->pid, packet->recv_buf, (void *) addr, copy_length);
 
     if (res < 0)
     {

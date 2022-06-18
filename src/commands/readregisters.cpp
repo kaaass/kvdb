@@ -25,7 +25,7 @@ int ReadRegistersCommand::execute(Packet *packet)
 
     auto registers = (register_set.user.cpsr & 0x1F) == 0x10 ? (&register_set.user) : (&register_set.kernel);
 
-    sprintf(packet->send_buf, "%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x"
+    snprintf(packet->send_buf, 0x1000, "%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x"
             , (unsigned int)__builtin_bswap32(registers->r0)
             , (unsigned int)__builtin_bswap32(registers->r1)
             , (unsigned int)__builtin_bswap32(registers->r2)

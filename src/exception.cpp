@@ -123,12 +123,12 @@ extern "C"
                 return EXCEPTION_NOT_HANDLED;
             }
 
-            target->excpt_tid = info.unk;
+            target->excpt_tid = info.faultingThreadId;
 
             int status = 0;
             ksceKernelGetProcessStatus(target->pid, &status); // TODO: check result
 
-            ksceKernelChangeThreadSuspendStatus(info.unk, 0x1002); // TODO: check result
+            ksceKernelChangeThreadSuspendStatus(info.faultingThreadId, 0x1002); // TODO: check result
 
             // lets suspend the process for further processing by gdb
             debugger->halt(0x1C);
@@ -167,12 +167,12 @@ extern "C"
             return EXCEPTION_NOT_HANDLED;
         }
 
-        target->excpt_tid = info.unk;
+        target->excpt_tid = info.faultingThreadId;
 
         int status = 0;
         ksceKernelGetProcessStatus(target->pid, &status); // TODO: check result
 
-        ksceKernelChangeThreadSuspendStatus(info.unk, 0x1002); // TODO: check result
+        ksceKernelChangeThreadSuspendStatus(info.faultingThreadId, 0x1002); // TODO: check result
 
         // lets suspend the process for further processing by gdb
         debugger->halt(0x1C);
@@ -212,12 +212,12 @@ extern "C"
                 return EXCEPTION_NOT_HANDLED;
             }
 
-            target->excpt_tid = info.unk;
+            target->excpt_tid = info.faultingThreadId;
 
             int status = 0;
             ksceKernelGetProcessStatus(target->pid, &status); // TODO: check result
 
-            ksceKernelChangeThreadSuspendStatus(info.unk, 0x1002); // TODO: check result
+            ksceKernelChangeThreadSuspendStatus(info.faultingThreadId, 0x1002); // TODO: check result
 
             // lets suspend the process for further processing by gdb
             debugger->halt(0x1C);

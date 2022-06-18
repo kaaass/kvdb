@@ -82,18 +82,18 @@ Debugger::Debugger()
     m_cmd_list = g_cmd_list;
     m_cmd_list_n = g_cmd_n;
 
-    m_proc_handler = 
+    m_proc_handler = SceSysrootProcessHandler
     {
         sizeof(SceSysrootProcessHandler),
-        ::dummy_handler,
-        ::dummy_handler,
-        ::dummy_handler,
-        ::dummy_handler,
-        ::dummy_handler,
-        ::dummy_handler,
-        on_process_created_handler,
-        ::dummy_handler,
-        ::dummy_handler
+        reinterpret_cast<void (*)(SceUID, SceUID, int, uint64_t)>(::dummy_handler),
+        reinterpret_cast<void (*)(SceUID, int, uint64_t)>(::dummy_handler),
+        reinterpret_cast<void (*)(SceUID)>(::dummy_handler),
+        reinterpret_cast<void (*)(SceUID, SceUID, uint64_t)>(::dummy_handler),
+        reinterpret_cast<void (*)(SceUID, SceUID, uint64_t)>(::dummy_handler),
+        reinterpret_cast<void (*)(SceUID, SceUID, uint64_t)>(::dummy_handler),
+        reinterpret_cast<int (*)(int, int, int)>(on_process_created_handler),
+        reinterpret_cast<void (*)(SceUID, SceUID, uint64_t)>(::dummy_handler),
+        reinterpret_cast<void (*)(SceUID, SceUID, int, uint64_t)>(::dummy_handler)
     };
 
     memset(m_stdout_cache, 0, sizeof(m_stdout_cache));

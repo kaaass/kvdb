@@ -31,7 +31,7 @@ int WriteMemoryCommand::execute(Packet *packet)
 
     // TODO: check if dest write location is valid
     // TODO: check result
-    ksceKernelRxMemcpyKernelToUserForPid(target->pid, addr, packet->recv_buf, length);
+    ksceKernelRxMemcpyKernelToUserForPid(target->pid, (void *) addr, packet->recv_buf, length);
 
     packet->send("OK");
     return 0;

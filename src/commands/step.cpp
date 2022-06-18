@@ -39,7 +39,7 @@ int StepCommand::execute(Packet *packet)
     {
         // TODO: error check better
         auto instruction = 0u;
-        auto res = ksceKernelMemcpyUserToKernelForPid(target->pid, &instruction, pc_addr, 2);
+        auto res = ksceKernelMemcpyUserToKernelForPid(target->pid, &instruction, (void *) pc_addr, 2);
 
         if (res < 0)
         {
@@ -51,7 +51,7 @@ int StepCommand::execute(Packet *packet)
     {
         // TODO: error check better
         auto instruction = 0u;
-        auto res = ksceKernelMemcpyUserToKernelForPid(target->pid, &instruction, pc_addr, 4);
+        auto res = ksceKernelMemcpyUserToKernelForPid(target->pid, &instruction, (void *) pc_addr, 4);
 
         if (res < 0)
         {

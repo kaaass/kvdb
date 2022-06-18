@@ -26,13 +26,13 @@ namespace cache
         {
             // TODO: Take care of SHARED_PID
             flags = ksceKernelCpuDisableInterrupts();
-            ksceKernelCpuSaveContext(my_context);
+            ksceKernelCpuSaveContext(reinterpret_cast<SceKernelProcessContext *>(my_context));
 
             // TODO: fix up sdk inconsistencies...
             ret = ksceKernelGetPidContext(pid, reinterpret_cast<SceKernelProcessContext**>(&other_context));
             if (ret >= 0) 
             {
-                ksceKernelCpuRestoreContext(other_context);
+                ksceKernelCpuRestoreContext(reinterpret_cast<const SceKernelProcessContext *>(other_context));
                 asm volatile ("mrc p15, 0, %0, c3, c0, 0" : "=r" (dacr));
                 asm volatile ("mcr p15, 0, %0, c3, c0, 0" :: "r" (0x15450FC3));
                 ksceKernelCpuDcacheWritebackInvalidateRange((void *)vma_align, len);
@@ -40,7 +40,7 @@ namespace cache
                 asm volatile ("mcr p15, 0, %0, c3, c0, 0" :: "r" (dacr));
             }
 
-            ksceKernelCpuRestoreContext(my_context);
+            ksceKernelCpuRestoreContext(reinterpret_cast<const SceKernelProcessContext *>(my_context));
             ksceKernelCpuEnableInterrupts(flags);
         }
 
